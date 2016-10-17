@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env node --harmony
 'use strict';
 var fs = require('fs-extra');
 var path = require("path");
@@ -11,14 +11,8 @@ class cv extends Basic {
     super();
   }
 
-  commandSetting(settingCallBack){
-    var babelrcPath = path.resolve(process.cwd(),".babelrc");
-    if(!fs.existsSync(babelrcPath)){
-      console.error(colors.red("请先使用`r2 init`初始化!"));
-      commander.outputHelp(this.make_green);
-      return;
-    } 
-    this.r2Path = path.resolve(process.cwd(),"web_modules/r2-js/bin"); 
+  commandSetting(){
+    this.r2Path = path.resolve(__dirname,"main");
     return super.commandSetting(()=>{
       commander
         .version('0.0.1')

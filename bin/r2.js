@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env node --harmony
 'use strict';
 var fs = require('fs-extra');
 var path = require("path");
@@ -11,17 +11,15 @@ class r2 extends Basic {
     super();
   }
 
-  commandSetting(settingCallBack){
-    return super.commandSetting(()=>{
+  commandSetting(){
       commander
         .version(this.packageInfo.version)
+        .command('init', 'r2项目初始')
         .command('ac', '智能路由和reducer生成')
         .command('cv', '页面模块创建')
-        .command('init', 'r2项目初始')
         .command('reset',colors.red('重置项目，这个会返回最初状态，慎用（记得备份文件）！'))
         .parse(process.argv);
-      return commander;
-    }); 
+      return true;
   }
 }
 new r2();

@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env node --harmony
 'use strict';
 var fs = require('fs-extra');
 var path = require("path");
@@ -11,7 +11,7 @@ class reset extends Basic {
     super();
   }
 
-  commandSetting(settingCallBack){
+  commandSetting(){
     return super.commandSetting(()=>{
       commander
         .version(this.packageInfo.version)
@@ -22,6 +22,7 @@ class reset extends Basic {
 
   run(){
     var rmFiles = [
+      "package.json",
       "temp",
       "html_template",
       "src",

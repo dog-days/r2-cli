@@ -1,8 +1,22 @@
-var webpack = require('webpack')
+var webpack = require('webpack');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
-var path = require('path')
-var HtmlWebpackPlugin = require('html-webpack-plugin')
+var path = require('path');
+var fs = require('fs-extra');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+
+//bebin-----------packageInfo信息获取
+var packageInfo = fs.readJsonSync("./package.json");
+var getInfo = function(package){
+  return !!(packageInfo.dependencies[package] || packageInfo.devDependencies[package]);  
+}
+var useSass = getInfo("sass-loader") && getInfo("node-sass");
+var useLess = getInfo("less-loader");
+var usePostcss = getInfo("postcss-loader");
+var useImmutable = getInfo("immutable") && getInfo("redux-immutable");
+//end  -----------packageInfo信息获取
+//是否为生产环境
 var isProduction = process.env.NODE_ENV === "production";
+
 
 if(isProduction){
   var entry =  [
@@ -38,10 +52,6 @@ var config = {
         test: /\.css$/, 
         loader: isProduction ? ExtractTextPlugin.extract("style", "css") : "style!css", 
       },
-      { 
-        test: /\.scss$/, 
-        loader: isProduction ? ExtractTextPlugin.extract("style", "css!sass") : "style!css!sass", 
-      },
       //limit是base64转换最大限制，小于设置值，都会转为base64格式
       //name是在css中提取图片的命名方式
       { 
@@ -73,7 +83,6 @@ var config = {
     "react-router": "ReactRouter",
     "redux": "Redux",
     "react-router-redux": "ReactRouterRedux",
-    "immutable": "Immutable",
   },
   resolve: {
     alias: {
@@ -89,6 +98,7 @@ var config = {
     new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV), 
+      'useImmutable': JSON.stringify(useImmutable), 
     }),
     new HtmlWebpackPlugin({
       template: 'html_template/index.html',
@@ -98,6 +108,15 @@ var config = {
     }),
   ]
 };
+//使用sass配置
+if(useSass) {
+  config.module.loaders.push(
+      { 
+        test: /\.scss$/, 
+        loader: isProduction ? ExtractTextPlugin.extract("style", "css!sass") : "style!css!sass", 
+      }
+  );
+}
 if(isProduction){
   var UglifyJsPlugin = new webpack.optimize.UglifyJsPlugin({
       compress: {

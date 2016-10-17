@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env node --harmony
 'use strict';
 var fs = require('fs-extra');
 var watch = require('chokidar');
@@ -12,13 +12,7 @@ class ac extends Basic {
     super();
   }
 
-  commandSetting(settingCallBack){
-    var babelrcPath = path.resolve(process.cwd(),".babelrc");
-    if(!fs.existsSync(babelrcPath)){
-      console.error(colors.red("请先使用`r2 init`初始化!"));
-      commander.outputHelp(this.make_green);
-      return;
-    } 
+  commandSetting(){
     var flag = super.commandSetting(()=>{
       commander
         .version(this.packageInfo.version)
@@ -28,10 +22,7 @@ class ac extends Basic {
       return commander;
     }); 
     if(flag){
-      var r2Path = path.resolve(process.cwd(),"web_modules/r2-js/bin/script");
-      if(!fs.existsSync(r2Path)){
-        r2Path = path.resolve(process.cwd(),"node_modules/r2-js/bin/script");
-      }
+      var r2Path = path.resolve(__dirname,"main/script");
       this.createRoute = require(path.resolve(r2Path,"createRouteFile.js"));
       this.createReducer = require(path.resolve(r2Path,"createReducerFile.js"));
       this.r2Path = r2Path;
@@ -40,8 +31,14 @@ class ac extends Basic {
   }
 
   run(){
-    this.create();
-    this.watch();
+    fs.ensureDir(path.resolve(process.cwd(),"temp"),(err)=>{
+      if(!err){
+        this.create();
+        this.watch();
+      }else{
+        console.log(color.red(err))
+      }
+    })
   }
 
   watchRun(f){
