@@ -21,16 +21,15 @@
     "express": "^4.13.4",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.8.5",
+    "fs-extra": "^0.30.0",
     "grunt": "^0.4.5",
     "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-compress": "^0.14.0",
     "grunt-webpack": "^1.0.11",
     "history": "^1.17.0",
     "html-webpack-plugin": "^2.22.0",
-    "immutable": "^3.8.1",
     "isomorphic-fetch": "^2.2.1",
     "js-cookie": "^2.1.2",
-    "node-sass": "^3.8.0",
     "object.assign": "^4.0.4",
     "r2-js": "0.0.13",
     "react": "^15.2.1",
@@ -44,7 +43,6 @@
     "redux-immutable": "^3.0.6",
     "redux-logger": "^2.3.1",
     "redux-thunk": "^1.0.3",
-    "sass-loader": "^4.0.0",
     "style-loader": "^0.13.0",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.2",
@@ -70,5 +68,8 @@
   "bugs": {
     "url": "https://github.com/dog-days/r2/issues"
   },
-  "homepage": "https://github.com/dog-days/r2"
+  "homepage": "https://github.com/dog-days/r2",
+  "devDependencies": {
+    "sass-loader": "^4.0.2"
+  }
 }
