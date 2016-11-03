@@ -1,0 +1,8 @@
+{
+  instrumentation: {
+    root: "../bin"
+  },
+  reporting: {
+    dir: "./.coverage"
+  }
+}

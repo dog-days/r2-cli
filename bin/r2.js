@@ -1,10 +1,11 @@
 #!/usr/bin/env node --harmony
 'use strict';
+
 var fs = require('fs-extra');
 var path = require("path");
 var commander = require('commander');
 var colors = require('colors');
-var Basic = require('./Basic');
+var Basic = require('./libs/Basic');
 
 class r2 extends Basic {
   constructor(){

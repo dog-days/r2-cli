@@ -13,9 +13,21 @@
   "license": "ISC",
   "dependencies": {
     "chokidar": "^1.6.0",
+    "co": "^4.6.0",
     "colors": "^1.1.2",
     "commander": "^2.9.0",
-    "fs-extra": "^0.30.0",
-    "shelljs": "^0.7.4"
+    "fs-extra": "^0.30.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.10.4",
+    "babel-plugin-transform-async-to-generator": "^6.8.0",
+    "babel-preset-es2015-node5": "^1.2.0",
+    "babel-preset-stage-3": "^6.5.0",
+    "chai": "^3.5.0",
+    "chai-as-promised": "^6.0.0",
+    "istanbul": "^1.0.0-alph",
+    "mocha": "^3.1.2",
+    "sinon": "^1.17.6",
+    "uncolor": "^0.4.0"
   }
 }

@@ -21,12 +21,8 @@ class Basic {
   * 读取r2-cli项目package.json
   */
   readPackageJSON(){
-    var json = fs.readJsonSync(path.resolve(__dirname,"../package.json"));
+    var json = fs.readJsonSync(path.resolve(__dirname,"../../package.json"));
     this.packageInfo = json; 
-  }
-
-  make_red(txt) {
-    return colors.red(txt); 
   }
 
   make_green(txt) {
@@ -47,7 +43,7 @@ class Basic {
     try {
       var packagePath = path.resolve(process.cwd(),".r2rc");
       if(!fs.existsSync(packagePath)){
-        console.error(colors.red("请在r2项目中使用该命令！"));
+        console.info(colors.red("请在r2项目根目录中使用该命令！"));
         commander.outputHelp(this.make_green);
         return false;
       }

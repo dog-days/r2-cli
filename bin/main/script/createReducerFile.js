@@ -62,7 +62,7 @@ class Script {
     content = content.replace(tpl.tagsInfo.tagRegex['reducer_import'],require)
     content = content.replace(tpl.tagsInfo.tagRegex['reducer_reducer'],reducer)
     fs.writeFileSync(path.resolve(this.config.savePath),content)
-    console.log("create reducer success!")
+    console.info("Create reducers success!")
   }
 
 }

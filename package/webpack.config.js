@@ -7,11 +7,10 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 //bebin-----------packageInfo信息获取
 var packageInfo = fs.readJsonSync("./package.json");
 var getInfo = function(package){
-  return !!(packageInfo.dependencies[package] || packageInfo.devDependencies[package]);  
+  return !!(packageInfo.dependencies && packageInfo.dependencies[package] 
+            || packageInfo.devDependencies && packageInfo.devDependencies[package]);  
 }
 var useSass = getInfo("sass-loader") && getInfo("node-sass");
-var useLess = getInfo("less-loader");
-var usePostcss = getInfo("postcss-loader");
 var useImmutable = getInfo("immutable") && getInfo("redux-immutable");
 //end  -----------packageInfo信息获取
 //是否为生产环境

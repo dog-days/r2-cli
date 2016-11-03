@@ -5,9 +5,6 @@ import Antd from 'antd'
 import { Menu } from 'antd'
 import { Link } from 'react-router'
 
-require('css/base.scss')
-require('css/main.scss')
-
 class View extends Component {
   constructor(props){
     super(props); 

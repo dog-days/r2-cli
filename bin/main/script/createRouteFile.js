@@ -94,7 +94,7 @@ class Script {
     content = content.replace(tpl.tagsInfo.tagRegex['index'],index)
     // console.log(content)
     fs.writeFileSync(path.resolve(this.config.savePath),content)
-    console.log("Create routes success!")
+    console.info("Create routes success!")
   }
 
 }

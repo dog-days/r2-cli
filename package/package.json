@@ -29,7 +29,6 @@
     "history": "^1.17.0",
     "html-webpack-plugin": "^2.22.0",
     "isomorphic-fetch": "^2.2.1",
-    "js-cookie": "^2.1.2",
     "object.assign": "^4.0.4",
     "r2-js": "0.0.13",
     "react": "^15.2.1",
@@ -68,8 +67,5 @@
   "bugs": {
     "url": "https://github.com/dog-days/r2/issues"
   },
-  "homepage": "https://github.com/dog-days/r2",
-  "devDependencies": {
-    "sass-loader": "^4.0.2"
-  }
+  "homepage": "https://github.com/dog-days/r2"
 }
