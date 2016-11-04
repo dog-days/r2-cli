@@ -51,7 +51,6 @@ module.exports = function(){
         }catch(e){
           console.log(e);
         }
-        resolve();
         flag.should.to.be.false; 
         shouldInit = true;
       })
@@ -77,14 +76,10 @@ module.exports = function(){
       });
 
       it('should equal "初始化成功！"', function(){
+        resolve();
         uncolor(info[5]).should.equal("初始化成功！");
       });
 
-      afterEach(function(){
-        if(shouldInit){
-          //console.log(1)
-        }
-      })
     });
   })
 }

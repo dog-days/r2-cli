@@ -49,7 +49,6 @@ module.exports = function(){
           if(flag) {
             flag = fs.existsSync(path.resolve(process.cwd(),"temp/routes.js"));
           }
-          resolve();
           flag.should.to.be.true; 
       })
 
@@ -62,6 +61,7 @@ module.exports = function(){
       });
 
       it('should equal "Create reducers success!"', function(){
+        resolve();
         uncolor(info[2]).should.equal("Create reducers success!");
       });
     });
