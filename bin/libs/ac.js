@@ -19,6 +19,7 @@ class ac extends Basic {
         .option('-w, --watch', 'watch to create route and reducers')
         .option('-m, --viewModel', 'render src/page/.viewModel')
         .parse(process.argv);
+      //console.log(process.argv)
       return commander;
     }); 
     if(flag){
