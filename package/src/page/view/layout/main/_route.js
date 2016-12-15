@@ -32,11 +32,6 @@ var component = function(){
 module.exports = {
   path: view(), 
   component: component(),
-  getComponent(location, cb) {
-    require.ensure([], (require) => {
-      cb(null, require("./index"))
-    },"main")
-  },
   indexRoute: indexRoute(),
   childRoutes: childRoutes(),
 }

@@ -1,9 +1,10 @@
 import React from 'react'
 import Component from 'src/libs/ModuleComponent'
 import { connect } from 'react-redux'
-import Antd from 'antd'
+import * as Antd from 'antd'
 import { Menu } from 'antd'
 import { Link } from 'react-router'
+import 'antd/dist/antd.css';
 
 class View extends Component {
   constructor(props){

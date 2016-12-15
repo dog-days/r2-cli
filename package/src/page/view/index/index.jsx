@@ -3,7 +3,6 @@ import Component from 'src/libs/ModuleComponent'
 import { connect } from 'react-redux'
 import * as Antd from 'antd'
 
-
 class View extends Component {
   constructor(props){
     super(props); 

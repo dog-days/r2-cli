@@ -3,4 +3,18 @@ import global from './common/global'
 import routes from '../temp/routes';
 import reducers from '../temp/reducers'
 
-r2JS(routes,reducers);
+var render = r2JS(routes,reducers);
+
+render();
+if (module.hot) {
+  module.hot.accept(
+    '../temp/routes',
+    () => render()
+  );
+}
+if (module.hot) {
+  module.hot.accept(
+    '../temp/reducers',
+    () => render()
+  );
+}

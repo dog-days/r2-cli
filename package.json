@@ -12,6 +12,7 @@
   "author": "nange",
   "license": "ISC",
   "dependencies": {
+    "babel-core": "^6.18.2",
     "chokidar": "^1.6.0",
     "co": "^4.6.0",
     "colors": "^1.1.2",

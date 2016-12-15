@@ -7,8 +7,10 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 //bebin-----------packageInfo信息获取
 var packageInfo = fs.readJsonSync("./package.json");
 var getInfo = function(package){
-  return !!(packageInfo.dependencies && packageInfo.dependencies[package] 
-            || packageInfo.devDependencies && packageInfo.devDependencies[package]);  
+  return !!(
+    packageInfo.dependencies && packageInfo.dependencies[package] 
+    || packageInfo.devDependencies && packageInfo.devDependencies[package]
+  );  
 }
 var useSass = getInfo("sass-loader") && getInfo("node-sass");
 var useImmutable = getInfo("immutable") && getInfo("redux-immutable");
@@ -16,21 +18,20 @@ var useImmutable = getInfo("immutable") && getInfo("redux-immutable");
 //是否为生产环境
 var isProduction = process.env.NODE_ENV === "production";
 
-
 if(isProduction){
   var entry =  [
     './src/index.jsx'
   ];
 }else{
   var entry =  [
-    //'react-hot-loader/patch',
+    'react-hot-loader/patch',
     'webpack-hot-middleware/client',//热替换入口文件
     './src/index.jsx'
   ];
 }
-
+//webpack配置项
 var config = {
-  devtool: isProduction ? "#source-map":"#eval-source-map",
+  devtool: isProduction ? "source-map":"eval-source-map",
   entry: {
     app: entry,
   }, 
@@ -43,13 +44,17 @@ var config = {
     //定义require.ensure文件名
 		chunkFilename: '[name]-[id]-[chunkHash].chunk.js',
     libraryTarget: "var",
+    sourceMapFilename: "[file].map"
   },
   module: {
-    loaders: [
+    rules: [
       //匹配到rquire中以.css结尾的文件则直接使用指定loader
       { 
         test: /\.css$/, 
-        loader: isProduction ? ExtractTextPlugin.extract("style", "css") : "style!css", 
+        loader: isProduction ? ExtractTextPlugin.extract({
+          fallbackLoader: "style-loader",
+          loader: "css-loader",
+        }) : ["style-loader","css-loader"], 
       },
       //limit是base64转换最大限制，小于设置值，都会转为base64格式
       //name是在css中提取图片的命名方式
@@ -65,25 +70,26 @@ var config = {
       { 
         //匹配.js或.jsx后缀名的文件
         test: /\.js[x]?$/, 
-        loader: 'babel',
+        loader: 'babel-loader',
         //不解析node_modules的es6语法 
         exclude: /node_modules/,
       },
     ],
   },
-  sassLoader: {
-    includePaths: [
-      path.resolve(__dirname, "style/css"),
-    ]
-  },
   externals: {
     "react": "React",
     "react-dom": "ReactDOM",
-    "react-router": "ReactRouter",
+    //"react-router": "ReactRouter",
     "redux": "Redux",
     "react-router-redux": "ReactRouterRedux",
   },
   resolve: {
+    //设置需要类库包调用位置，默认是node_modules
+    modules: [
+      path.resolve(__dirname,"src"),
+      "web_modules",
+      "node_modules",
+    ],
     alias: {
       'src': path.resolve(__dirname,'src'),
       'css': path.resolve(__dirname,'style/css'),
@@ -91,7 +97,8 @@ var config = {
       'page': path.resolve(__dirname,'src/page'),
       'common': path.resolve(__dirname,'src/common'),
     }, 
-    extensions: ['', '.js', '.jsx']
+    //不可留空字符串
+    extensions: ['.js', '.jsx']
   },
   plugins: [
     new webpack.NoErrorsPlugin(),
@@ -109,23 +116,36 @@ var config = {
 };
 //使用sass配置
 if(useSass) {
-  config.module.loaders.push(
-      { 
-        test: /\.scss$/, 
-        loader: isProduction ? ExtractTextPlugin.extract("style", "css!sass") : "style!css!sass", 
-      }
+  config.module.rules.push(
+    { 
+      test: /\.scss$/, 
+      loader: isProduction ? ExtractTextPlugin.extract({
+        fallbackLoader: "style-loader",
+        loader: ["css-loader","sass-loader"],
+      }) : ["style-loader","css-loader"], 
+    }
   );
 }
 if(isProduction){
+  var loaderOptionsPlugin = new webpack.LoaderOptionsPlugin({
+    // optionally pass test, include and exclude, default affects all loaders
+    test: /\.css|.js|.jsx|.scss$/, 
+    minimize: true,
+    debug: false,
+  })
+  config.plugins.push(loaderOptionsPlugin)
   var UglifyJsPlugin = new webpack.optimize.UglifyJsPlugin({
-      compress: {
-          warnings: false
-      }
+    minimize: true,
+    sourceMap: true,
+    compress: {
+      warnings: false
+    }
   });
   config.plugins.push(UglifyJsPlugin)
   config.plugins.push(
     //生成环境才把css单独打包，这样在开发环境css的热替也能生效。
-    new ExtractTextPlugin('../css/styles.css?hash=[hash]', {
+    new ExtractTextPlugin({
+      filename: '../css/styles.css?hash=[hash]',
       allChunks: true //最好true,要不后面加上sass-loader等时，会出现css没有提取的现象
     })
   )
