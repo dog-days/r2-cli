@@ -23,6 +23,8 @@ class Script {
 	}	
     run(){
 		this.config.path.forEach(v=>{
+      //当前文件夹也要考虑进去
+      this.dirs.push(v);
 			this.getAllDiryPath(path.resolve(v));
 		})
 		try{
@@ -33,7 +35,7 @@ class Script {
 					this.filesPath.push(f_path.replace(/\\/g,"/"));
 				}
 			})
-			// console.log(this.filesPath)
+//console.log(this.filesPath)
 		}catch(e){
 			console.log(e);
 		}

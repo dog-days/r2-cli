@@ -2,4 +2,4 @@
 npm-debug.log
 *.swp
 *.zip
-/.coverage/
+/tests/.coverage/

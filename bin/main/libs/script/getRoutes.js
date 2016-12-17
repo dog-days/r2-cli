@@ -20,10 +20,10 @@ class Script {
     run(){
     	this.filesPath.forEach(v=>{
     		var sp = v.split("/")
-    		var r = sp[sp.length-2]
-			var index = this.routesName.indexOf(r);
-			if(index != -1){
-				console.error("重复的view名",r,v,this.reducers[index].absolutePath)
+        var r = sp[sp.length-2]
+        var index = this.routesName.indexOf(r);
+        if(index != -1){
+          console.error("重复的view名",r,v,this.reducers[index].absolutePath)
 				this.error = true;
 			}
 			this.routesName.push(r);
