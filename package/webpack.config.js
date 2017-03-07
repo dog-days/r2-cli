@@ -32,6 +32,10 @@ if(isProduction){
 //webpack配置项
 var config = {
   devtool: isProduction ? "source-map":"eval-source-map",
+  //隐藏终端的warning信息
+  performance: { 
+    hints: false, 
+  },
   entry: {
     app: entry,
   }, 
@@ -62,7 +66,7 @@ var config = {
         test: /\.(gif|jpg|png|woff|svg|eot|ttf)\??.*$/, //匹配图片或字体格式的文件
         //[path]是以publicPath为准
         loader: 'url-loader',
-        query: {
+        options: {
           limit: 50000,
           name: isProduction ? "[path]../images/[name].[hash].[ext]" : "images/[name].[hash].[ext]",
         }
@@ -77,11 +81,11 @@ var config = {
     ],
   },
   externals: {
-    "react": "React",
-    "react-dom": "ReactDOM",
+    //"react": "React",
+    //"react-dom": "ReactDOM",
     //"react-router": "ReactRouter",
-    "redux": "Redux",
-    "react-router-redux": "ReactRouterRedux",
+    //"redux": "Redux",
+    //"react-router-redux": "ReactRouterRedux",
   },
   resolve: {
     //设置需要类库包调用位置，默认是node_modules
@@ -101,7 +105,7 @@ var config = {
     extensions: ['.js', '.jsx']
   },
   plugins: [
-    new webpack.NoErrorsPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV), 
       'useImmutable': JSON.stringify(useImmutable), 
@@ -122,7 +126,7 @@ if(useSass) {
       loader: isProduction ? ExtractTextPlugin.extract({
         fallbackLoader: "style-loader",
         loader: ["css-loader","sass-loader"],
-      }) : ["style-loader","css-loader"], 
+      }) : ["style-loader","css-loader","sass-loader"], 
     }
   );
 }
@@ -154,4 +158,5 @@ if(isProduction){
   config.plugins.push(new webpack.HotModuleReplacementPlugin());
 }
 module.exports = config;
+
 

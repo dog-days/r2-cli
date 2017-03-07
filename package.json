@@ -1,6 +1,6 @@
 {
   "name": "r2-cli",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "r2开发框架命令工具",
   "main": "index.js",
   "scripts": {
