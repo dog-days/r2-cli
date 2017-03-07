@@ -57,7 +57,14 @@ class Script {
     var state = {};
     //处理一级route，判别方式为每个_route.js中是否有layout变量。
     this.routes.forEach(v=>{
-      var layout = require(v.absolutePath).layout;
+      var routes_file_contents = fs.readFileSync(v.absolutePath,{
+        encoding : 'utf-8'
+      })
+      var routes_match = routes_file_contents.match(/layout.*\:.*("|')(.*)("|')/i);
+      var layout;
+      if(routes_match && routes_match[2]){
+        layout = routes_match[2];
+      }
       if(!layout){
         if(v.name != "index"){
           im += tpl.tagsInfo.tagContents['require']
@@ -76,13 +83,13 @@ class Script {
         if(fs.existsSync(layout_path)){
           if(!state[layout]){
             //首次初始化，文件内容
-            fs.writeFileSync(child_routesPath,"module.exports = [\n\r  //routes//\n\r]")
+            fs.writeFileSync(child_routesPath,"export default [\n\r  //routes//\n\r]")
             state[layout] = true;
           }
           var child_routes = fs.readFileSync(child_routesPath,{
             encoding : 'utf-8'
           })
-          child_routes = child_routes.replace(/\/\/routes\/\//g,'require("'+v.path+'"), \n\r  //routes//')
+          child_routes = child_routes.replace(/\/\/routes\/\//g,'require("'+v.path+'").default, \n\r  //routes//')
           fs.writeFileSync(child_routesPath,child_routes)
         }else{
           console.error(v.absolutePath + "：不存在layout---"+layout)

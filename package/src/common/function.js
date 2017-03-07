@@ -226,4 +226,4 @@ var output = {
   },
   
 }
-module.exports = Object.assign({},fn,output);
+export default Object.assign({},fn,output);

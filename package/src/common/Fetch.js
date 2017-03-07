@@ -104,4 +104,4 @@ class Fetch extends BasicFetch {
   }
 }
 
-module.exports = Fetch; 
+export default Fetch; 

@@ -33,4 +33,4 @@ ReduxView.defaultProps = Object.assign({},Component.defaultProps,{
     },
   ],
 });
-module.exports = ReduxView; 
+export default ReduxView; 

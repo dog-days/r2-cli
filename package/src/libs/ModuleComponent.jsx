@@ -135,4 +135,4 @@ ModuleComponent.defaultProps = {
   },
 };
 
-module.exports = ModuleComponent
+export default ModuleComponent;

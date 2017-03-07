@@ -32,4 +32,4 @@ class NoPage extends React.Component {
     )  
   }
 }
-module.exports = NoPage; 
+export default NoPage; 

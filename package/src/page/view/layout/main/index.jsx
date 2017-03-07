@@ -52,4 +52,4 @@ ReduxView.defaultProps = Object.assign({},Component.defaultProps,{
     link:'/',
   },
 });
-module.exports = ReduxView; 
+export default ReduxView; 
