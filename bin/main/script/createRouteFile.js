@@ -2,6 +2,7 @@
 
 var fs = require("fs")
 var path = require("path")
+var colors = require('colors');
 var ReadDirTpl = require("../libs/script/ReadDirTpl")
 var FindSpecificFileByDir = require("../libs/script/FindSpecificFileByDir")
 var getRoutes = require("../libs/script/getRoutes")
@@ -75,12 +76,17 @@ class Script {
         }
       }else{
         var layout_path = path.resolve(this.config.layoutPath,layout) 
+        if(!fs.existsSync(layout_path)){
+          console.error(colors.red(`layout：${ layout }，${ layout_path }不存在`));
+          this.error = true;
+          return;
+        }
         var child_routesPath = path.resolve(layout_path,'.child_routes.js');
         //.child_routes.js文件不存在，创建新的
-        if(!fs.existsSync(layout_path)){
+        if(!fs.existsSync(child_routesPath)){
           fs.writeFileSync(child_routesPath,"export default [\n\r  //routes//\n\r]")
         }
-        if(fs.existsSync(layout_path)){
+        if(fs.existsSync(child_routesPath)){
           if(!state[layout]){
             //首次初始化，文件内容
             fs.writeFileSync(child_routesPath,"export default [\n\r  //routes//\n\r]")
@@ -97,6 +103,9 @@ class Script {
         
       }
     })
+    if(this.error){
+      return;
+    }
     content = content.replace(tpl.tagsInfo.tagRegex['require'],im)
     content = content.replace(tpl.tagsInfo.tagRegex['index'],index)
     // console.log(content)
